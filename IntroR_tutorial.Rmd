@@ -1,0 +1,144 @@
+---
+title: "Intro to R"
+output: html_document
+date: "2022-07-25"
+---
+
+**Yay for R!!** 
+
+DISCLAIMER - I am not an R-expert...it frustrates the crap out of me. I have to google pretty much everything.
+
+Things to go over today:
+
+    1. Getting around in R studio, general R syntax
+    2. Project files & working directories
+    3. Inputting data, data types, how to check the structure/type
+    4. Organizing your data for R
+    5. Simple plotting bc it's fun
+    6. Packages galore
+
+
+
+Since real data is more fun than fake data, the practice data set for today is about my family's dogs - here are 2 of these doggos enjoying life. A must for learning R is taking breaks to enjoy life like Tally & Willow! They are pros at taking breaks. 
+
+![Alt text here](/Users/lindsay.malone/Documents/IntroR/PXL_20220626_181018691.jpg)
+
+
+
+**1. Getting around in R studio, general R syntax **
+
+Rstudio is like a pretty shell for "base R" - the 4 windows are your script/data, the console, the environment, and the file/plot viewer. You can rearrange them using the button that looks like a window at the top of the screen.
+
+"#" or hashtags tell R "this isn't code" -it is useful for comments or for turning off certain sections of it
+
+```{r}
+#arrows <- are used to assign something...= can be used too, there is a difference and idk what it is
+A <- 6
+#you can run code by highlighting it and hitting "run" or by hitting cntrl enter on that line
+#you can also type directly into the console, or arrow up in the console to rerun the same line 
+
+B <- 3
+
+#you can use R like a glorified horrible calculator...but knowing this type of syntax is important for other stuff
+6+3
+A + B
+C <- A + B
+
+```
+```{r}
+#Another important thing to note in R is that you are typically running a "function" on an "object" 
+
+#functions are generally verbs, and followed by parentheses...like this:
+
+print(A)
+
+#objects are nouns - things like your data, a model you wrote, etc. A, B, & C are just values, but in a bit we will input a data frame. 
+
+```
+
+**2. Project files & working directories**
+
+```{r}
+#This function prints your working directory:
+getwd()
+
+#you can specify file paths, but it's much easier to set your working directory - you can go up to "Session>Set Working Directory>source file location or wherever else you have data saved, or specify:
+
+setwd("~/IntroR")
+```
+
+Using project files is really helpful for keeping things organized! Definitely not crucial though.
+
+Here is a great blog post explaining why project files are useful: https://spatiallychallenged.com/2018/12/07/project-files-and-data-management-for-qgis-and-r/
+
+**3. Inputting data, data types, how to check the structure/type **
+
+There are LOTS of ways to input data! You can "import dataset" button in the environment tab, or point to the file directly
+
+```{r}
+#pointing to the file
+
+#this line will print out the data, but doesn't save it as anything
+read.csv("doggies.csv", sep = ',')
+
+#by assigning it a name, R remembers the dataset now...note that it doesn't matter what you name things - even though the file is named "doggies" I can reassign it to "puppers" and R doesn't care. 
+puppers <- read.csv("doggies.csv")
+
+#this allows you to look at the different data types
+str(puppers)
+
+```
+
+**4. Organizing your data for R **
+
+R can only handle 1 sheet at a time...(I think). I tend to save excel files with multiple sheets, and save the sheet I want for R as a csv...this is not a great practice, but data management is hard :( 
+
+Some big "rules" are:
+  -no spaces 
+  -no periods (this is a soft rule)
+  -no weird symbols
+  -if a datapoint is missing, leave the cell blank. SAS wants periods for missing points so this can be a common issue.
+
+there are more...but I cannot think of them right now. 
+
+
+
+**5. simple plotting bc it's fun**
+You can make some interesting plots without any packages, but it's tricky. This is nice for getting a quick look at data. 
+```{r}
+plot(puppers$age)
+
+plot(weight~age, data = puppers)
+boxplot(age~color, data=puppers)
+```
+
+**6. Packages galore**
+
+There is only so much you can do in base R...but there are ENDLESS and constantly growing possibilities with R packages...you have to install them in order to use them the first time, and load them each time you start a new R session. 
+
+ggplot is a great one used for making plots...here is a good tutorial for it (I still have it bookmarked!)
+http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html
+
+```{r}
+library(ggplot2)
+
+ggplot(puppers, aes(x=weight, y=age, color=color)) +
+  geom_point(aes(col=color, size=5)) + 
+  theme_bw()+
+  scale_color_manual(values = c("black"="black",
+                                "brown"="sienna4"))
+  
+
+```
+
+**This is just the beginning!** 
+Some of my recommendations for continuing to learn R are:
+
+Learning "the tidyverse" - this is a helpful collection of packages that help with data management - ggplot is part of it.
+  - Here is a link to cheat sheets for it: https://www.rstudio.com/resources/cheatsheets/
+  - There is a LinkedIn Learning course called "Learning the R Tidyverse" with Charlie Joey Hadley that is a great way to get started
+
+Learn to use R markdown - this is something I am currently working on...or trying to, at least.This document is actually an R markdown file!
+
+As anyone who is an expert in this...google is your friend, and asking your actual friends for code is strongly encouraged :) If you need to do something specific and can't figure it out, just ask!
+
